@@ -33,19 +33,10 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', message: 'Server is running' });
 });
 
-// Serve static files from React build in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'public')));
-
-  // Handle React routing, return all requests to React app
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-  });
-} else {
-  app.get('/', (req, res) => {
-    res.json({ message: 'ShopEase E-Commerce API', version: '1.0.0' });
-  });
-}
+// Root route - API info
+app.get('/', (req, res) => {
+  res.json({ message: 'ShopEase E-Commerce API', version: '1.0.0' });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

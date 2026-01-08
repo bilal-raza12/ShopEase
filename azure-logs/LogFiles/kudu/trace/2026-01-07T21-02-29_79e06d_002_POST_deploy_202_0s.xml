@@ -1,0 +1,8 @@
+<step title="Incoming Request" date="2026-01-07T21:02:29.628" instance="79e06d" url="/deploy?scmType=GitHubAction&amp;isAsync=true" method="POST" type="request" pid="9828,2,8" Content-Length="80" Authorization="Bas..." Expect="100-continue" Host="shopease-bula-cshhexhdapfzbycf.scm.centralindia-01.azurewebsites.net" User-Agent="Azure-WebSites-Controller/106.0.7.130" x-ms-request-id="00794898-fbbf-4593-97be-4f23454bbd46" X-ARR-LOG-ID="00794898-fbbf-4593-97be-4f23454bbd46" CLIENT-IP="20.192.98.162:15493" X-SITE-DEPLOYMENT-ID="shopease-bula" WAS-DEFAULT-HOSTNAME="shopease-bula-cshhexhdapfzbycf.scm.centralindia-01.azurewebsites.net" X-MS-PLATFORM-INTERNAL="True" X-Forwarded-Proto="https" X-AppService-Proto="https" X-Forwarded-TlsVersion="1.3" X-WAWS-Unencoded-URL="/deploy?scmType=GitHubAction&amp;isAsync=true" >
+  <step title="Cleanup Xml Logs" date="2026-01-07T21:02:29.628" /><!-- duration: 0ms -->
+  <step title="FetchHandler" date="2026-01-07T21:02:29.660" >
+    <step title="Starting FetchDeploy" date="2026-01-07T21:02:29.707" /><!-- duration: 0ms -->
+    <step title="Start deployment in the background" date="2026-01-07T21:02:29.707" /><!-- duration: 78ms -->
+  </step><!-- duration: 141ms -->
+  <step title="Outgoing response" date="2026-01-07T21:02:29.800" type="response" statusCode="202" statusText="Accepted" Server="Microsoft-IIS/10.0" Location="https://shopease-bula-cshhexhdapfzbycf.scm.centralindia-01.azurewebsites.net/api/deployments/latest?deployer=GitHub&amp;time=2026-01-07_21-02-29Z" Retry-After="30" Cache-Control="private" X-AspNet-Version="4.0.30319" /><!-- duration: 0ms -->
+</step><!-- duration: 172ms -->

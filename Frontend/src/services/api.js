@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-// API Base URL - Azure backend in production, localhost in development
-const API_URL = process.env.REACT_APP_API_URL ||
-  (process.env.NODE_ENV === 'production'
-    ? 'https://shopease-bula1-btdef3bwaacmgxd6.centralindia-01.azurewebsites.net/api'
-    : 'http://localhost:5000/api');
+// API Base URL - Always use Azure backend
+const API_URL = process.env.REACT_APP_API_URL || 'https://shopease-bula1-btdef3bwaacmgxd6.centralindia-01.azurewebsites.net/api';
 
 // Create axios instance
 const api = axios.create({

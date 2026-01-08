@@ -19,21 +19,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
       - name: Install dependencies
         working-directory: ./Backend
-        run: npm ci --production
+        run: npm ci
 
       - name: Create deployment package
         run: |
           cd Backend
           zip -r ../release.zip . -x "*.git*" -x "*.env*"
-          cd ..
-          ls -la release.zip
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -42,27 +40,9 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F29BA19920714066B685828268C203FC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3BABC885B35F4C8FA620D627CDD12BFC }}
 
-      - name: Configure Azure App Service for Node.js
-        uses: azure/cli@v2
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
         with:
-          inlineScript: |
-            RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
-            echo "Resource Group: $RG"
-            az webapp start --name shopease-bula --resource-group $RG || true
-            az webapp config set --name shopease-bula --resource-group $RG --linux-fx-version "" --windows-fx-version "" || true
-            az webapp config appsettings set --name shopease-bula --resource-group $RG --settings WEBSITE_NODE_DEFAULT_VERSION="~20" SCM_DO_BUILD_DURING_DEPLOYMENT="false"
-            az webapp config set --name shopease-bula --resource-group $RG --startup-file "" --web-sockets-enabled false
-
-      - name: Deploy to Azure Web App via CLI
-        uses: azure/cli@v2
-        with:
-          inlineScript: |
-            RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
-            az webapp deployment source config-zip --name shopease-bula --resource-group $RG --src release.zip
-
-      - name: Restart Azure Web App
-        uses: azure/cli@v2
-        with:
-          inlineScript: |
-            RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
-            az webapp restart --name shopease-bula --resource-group $RG
+          app-name: 'shopease-bula1'
+          slot-name: 'Production'
+          package: release.zip

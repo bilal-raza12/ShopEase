@@ -7,8 +7,8 @@ const connectDB = require('./config/db');
 // Load environment variables
 dotenv.config();
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB (async, don't block server start)
+connectDB().catch(err => console.error('MongoDB connection error:', err));
 
 // Create Express app
 const app = express();

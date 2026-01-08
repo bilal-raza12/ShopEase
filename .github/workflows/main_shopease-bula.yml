@@ -42,12 +42,16 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F29BA19920714066B685828268C203FC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3BABC885B35F4C8FA620D627CDD12BFC }}
 
-      - name: Start Azure Web App (if stopped)
+      - name: Configure Azure App Service for Node.js
         uses: azure/cli@v2
         with:
           inlineScript: |
             RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
+            echo "Resource Group: $RG"
             az webapp start --name shopease-bula --resource-group $RG || true
+            az webapp config set --name shopease-bula --resource-group $RG --linux-fx-version "" --windows-fx-version "" || true
+            az webapp config appsettings set --name shopease-bula --resource-group $RG --settings WEBSITE_NODE_DEFAULT_VERSION="~20" SCM_DO_BUILD_DURING_DEPLOYMENT="false"
+            az webapp config set --name shopease-bula --resource-group $RG --startup-file "" --web-sockets-enabled false
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -55,7 +59,6 @@ jobs:
           app-name: 'shopease-bula'
           slot-name: 'Production'
           package: release.zip
-          clean: true
 
       - name: Restart Azure Web App
         uses: azure/cli@v2

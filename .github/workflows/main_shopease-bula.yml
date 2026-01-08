@@ -42,12 +42,12 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F29BA19920714066B685828268C203FC }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3BABC885B35F4C8FA620D627CDD12BFC }}
 
-      - name: Stop Azure Web App
+      - name: Start Azure Web App (if stopped)
         uses: azure/cli@v2
         with:
           inlineScript: |
             RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
-            az webapp stop --name shopease-bula --resource-group $RG
+            az webapp start --name shopease-bula --resource-group $RG || true
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -57,9 +57,9 @@ jobs:
           package: release.zip
           clean: true
 
-      - name: Start Azure Web App
+      - name: Restart Azure Web App
         uses: azure/cli@v2
         with:
           inlineScript: |
             RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
-            az webapp start --name shopease-bula --resource-group $RG
+            az webapp restart --name shopease-bula --resource-group $RG

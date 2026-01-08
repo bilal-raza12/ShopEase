@@ -53,12 +53,12 @@ jobs:
             az webapp config appsettings set --name shopease-bula --resource-group $RG --settings WEBSITE_NODE_DEFAULT_VERSION="~20" SCM_DO_BUILD_DURING_DEPLOYMENT="false"
             az webapp config set --name shopease-bula --resource-group $RG --startup-file "" --web-sockets-enabled false
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App via CLI
+        uses: azure/cli@v2
         with:
-          app-name: 'shopease-bula'
-          slot-name: 'Production'
-          package: release.zip
+          inlineScript: |
+            RG=$(az webapp list --query "[?name=='shopease-bula'].resourceGroup" -o tsv)
+            az webapp deployment source config-zip --name shopease-bula --resource-group $RG --src release.zip
 
       - name: Restart Azure Web App
         uses: azure/cli@v2

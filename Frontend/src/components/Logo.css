@@ -1,0 +1,381 @@
+/* ========================================
+   Logo Component - Modern Animated Design
+   ======================================== */
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.logo-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Background glow effect */
+.logo-glow {
+  position: absolute;
+  inset: -8px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.logo-wrapper:hover .logo-glow {
+  opacity: 1;
+}
+
+.logo-animated .logo-glow {
+  animation: logoGlowPulse 3s ease-in-out infinite;
+}
+
+@keyframes logoGlowPulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+/* SVG Container */
+.logo-svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logo-wrapper:hover .logo-svg {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* Background circle animation */
+.logo-animated .logo-bg-circle {
+  transform-origin: center;
+  animation: logoBgPulse 4s ease-in-out infinite;
+}
+
+@keyframes logoBgPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Inner ring rotation */
+.logo-animated .logo-inner-ring {
+  transform-origin: center;
+  animation: logoRingSpin 20s linear infinite;
+}
+
+@keyframes logoRingSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Shopping bag bounce on hover */
+.logo-animated .logo-bag {
+  transform-origin: center bottom;
+  animation: logoBagFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoBagFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Handle swing animation */
+.logo-animated .logo-handle {
+  transform-origin: center;
+  animation: logoHandleSwing 2.5s ease-in-out infinite;
+}
+
+@keyframes logoHandleSwing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+/* Sparkle animation */
+.logo-animated .logo-sparkle-main {
+  transform-origin: center;
+  animation: logoSparkle 2s ease-in-out infinite;
+}
+
+@keyframes logoSparkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1) rotate(10deg);
+  }
+}
+
+/* Dot animations */
+.logo-animated .logo-dot-1 {
+  animation: logoDotPulse 1.5s ease-in-out infinite;
+}
+
+.logo-animated .logo-dot-2 {
+  animation: logoDotPulse 1.5s ease-in-out infinite 0.3s;
+}
+
+.logo-animated .logo-dot-3 {
+  animation: logoDotPulse 1.5s ease-in-out infinite 0.6s;
+}
+
+@keyframes logoDotPulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+/* Floating particles */
+.logo-animated .logo-particle-1 {
+  animation: logoParticleFloat1 4s ease-in-out infinite;
+}
+
+.logo-animated .logo-particle-2 {
+  animation: logoParticleFloat2 3.5s ease-in-out infinite 0.5s;
+}
+
+.logo-animated .logo-particle-3 {
+  animation: logoParticleFloat3 4.5s ease-in-out infinite 1s;
+}
+
+.logo-animated .logo-particle-4 {
+  animation: logoParticleFloat4 3s ease-in-out infinite 0.3s;
+}
+
+@keyframes logoParticleFloat1 {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(3px, -5px);
+    opacity: 1;
+  }
+}
+
+@keyframes logoParticleFloat2 {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-3px, -4px);
+    opacity: 1;
+  }
+}
+
+@keyframes logoParticleFloat3 {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(4px, 3px);
+    opacity: 0.9;
+  }
+}
+
+@keyframes logoParticleFloat4 {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-2px, 4px);
+    opacity: 1;
+  }
+}
+
+/* Text container */
+.logo-text-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  line-height: 1.1;
+}
+
+/* Logo text styling */
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  display: flex;
+  align-items: baseline;
+}
+
+.logo-text-shop {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+.logo-text-ease {
+  background: linear-gradient(135deg, #d946ef 0%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+}
+
+/* Animated text on hover */
+.logo-wrapper:hover .logo-text-shop {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.logo-wrapper:hover .logo-text-ease {
+  background: linear-gradient(135deg, #c026d3 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+/* Tagline */
+.logo-tagline {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-top: 2px;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.logo-wrapper:hover .logo-tagline {
+  opacity: 1;
+  color: #6366f1;
+  letter-spacing: 0.18em;
+}
+
+/* Navbar variant - smaller text */
+.navbar-logo .logo-text {
+  font-size: 1.5rem;
+}
+
+.navbar-logo .logo-tagline {
+  display: none;
+}
+
+/* Footer variant - centered */
+.footer-logo {
+  justify-content: center;
+}
+
+.footer-logo .logo-text-container {
+  align-items: center;
+}
+
+/* Size variants */
+.logo-sm .logo-text {
+  font-size: 1.2rem;
+}
+
+.logo-lg .logo-text {
+  font-size: 2rem;
+}
+
+.logo-xl .logo-text {
+  font-size: 2.5rem;
+}
+
+/* Dark mode variant */
+.logo-dark .logo-tagline {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.logo-dark:hover .logo-tagline {
+  color: #a5b4fc;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo-text {
+    font-size: 1.4rem;
+  }
+
+  .logo-tagline {
+    font-size: 0.55rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-wrapper {
+    gap: 0.6rem;
+  }
+
+  .logo-text {
+    font-size: 1.2rem;
+  }
+
+  .logo-tagline {
+    display: none;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .logo-animated .logo-bg-circle,
+  .logo-animated .logo-inner-ring,
+  .logo-animated .logo-bag,
+  .logo-animated .logo-handle,
+  .logo-animated .logo-sparkle-main,
+  .logo-animated .logo-dot-1,
+  .logo-animated .logo-dot-2,
+  .logo-animated .logo-dot-3,
+  .logo-animated .logo-particle-1,
+  .logo-animated .logo-particle-2,
+  .logo-animated .logo-particle-3,
+  .logo-animated .logo-particle-4,
+  .logo-glow {
+    animation: none;
+  }
+
+  .logo-svg,
+  .logo-text-shop,
+  .logo-text-ease,
+  .logo-tagline {
+    transition: none;
+  }
+}

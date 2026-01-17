@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { FaSearch, FaFilter } from 'react-icons/fa';
+import { FaSearch, FaFilter, FaTh, FaList, FaTimes, FaSlidersH } from 'react-icons/fa';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
 import { productService } from '../services/api';
@@ -14,8 +14,17 @@ const Products = () => {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'All');
   const [sortBy, setSortBy] = useState('newest');
   const [priceRange, setPriceRange] = useState({ min: 0, max: 1000 });
+  const [viewMode, setViewMode] = useState('grid');
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-  const categories = ['All', 'Electronics', 'Fashion', 'Home', 'Sports', 'Food'];
+  const categories = [
+    { name: 'All', icon: '🛍️' },
+    { name: 'Electronics', icon: '🎧' },
+    { name: 'Fashion', icon: '👗' },
+    { name: 'Home', icon: '🏠' },
+    { name: 'Sports', icon: '⚽' },
+    { name: 'Food', icon: '🍕' }
+  ];
 
   useEffect(() => {
     fetchProducts();
@@ -185,100 +194,244 @@ const Products = () => {
     return matchesSearch && matchesCategory && matchesPrice;
   });
 
+  const clearFilters = () => {
+    setSearchTerm('');
+    setSelectedCategory('All');
+    setPriceRange({ min: 0, max: 1000 });
+    setSortBy('newest');
+  };
+
+  const activeFiltersCount = [
+    searchTerm !== '',
+    selectedCategory !== 'All',
+    priceRange.min !== 0 || priceRange.max !== 1000,
+    sortBy !== 'newest'
+  ].filter(Boolean).length;
+
   return (
     <div className="products-page">
-      <div className="products-header">
-        <h1>Our Products</h1>
-        <p>Discover our amazing collection of products</p>
-      </div>
+      {/* Hero Header */}
+      <section className="products-hero">
+        <div className="products-hero-bg">
+          <div className="hero-blob hero-blob-1"></div>
+          <div className="hero-blob hero-blob-2"></div>
+        </div>
+        <div className="products-hero-content">
+          <span className="products-hero-badge">Explore Our Collection</span>
+          <h1 className="products-hero-title">
+            Discover <span className="text-gradient">Amazing</span> Products
+          </h1>
+          <p className="products-hero-subtitle">
+            Browse through our curated selection of premium products
+          </p>
 
-      <div className="products-container">
-        {/* Filters Sidebar */}
-        <aside className="filters-sidebar">
-          <div className="filter-section">
-            <h3><FaFilter /> Filters</h3>
-          </div>
-
-          <div className="filter-section">
-            <h4>Search</h4>
-            <div className="search-box">
-              <FaSearch />
+          {/* Search Bar */}
+          <div className="hero-search-container">
+            <div className="hero-search-box">
+              <FaSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search for products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="filter-section">
-            <h4>Categories</h4>
-            <div className="category-filters">
-              {categories.map(category => (
-                <button
-                  key={category}
-                  className={`category-btn ${selectedCategory === category ? 'active' : ''}`}
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
+              {searchTerm && (
+                <button className="search-clear" onClick={() => setSearchTerm('')}>
+                  <FaTimes />
                 </button>
-              ))}
+              )}
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="filter-section">
-            <h4>Price Range</h4>
-            <div className="price-inputs">
-              <input
-                type="number"
-                placeholder="Min"
-                value={priceRange.min}
-                onChange={(e) => setPriceRange({ ...priceRange, min: Number(e.target.value) })}
-              />
-              <span>-</span>
-              <input
-                type="number"
-                placeholder="Max"
-                value={priceRange.max}
-                onChange={(e) => setPriceRange({ ...priceRange, max: Number(e.target.value) })}
-              />
-            </div>
-          </div>
-
-          <div className="filter-section">
-            <h4>Sort By</h4>
-            <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-              <option value="newest">Newest</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
-              <option value="rating">Top Rated</option>
-            </select>
-          </div>
-        </aside>
-
-        {/* Products Grid */}
-        <div className="products-content">
-          <div className="results-info">
-            <span>{filteredProducts.length} products found</span>
-          </div>
-
-          {loading ? (
-            <Loading />
-          ) : filteredProducts.length === 0 ? (
-            <div className="no-products">
-              <h3>No products found</h3>
-              <p>Try adjusting your filters or search term</p>
-            </div>
-          ) : (
-            <div className="products-grid">
-              {filteredProducts.map(product => (
-                <ProductCard key={product._id} product={product} />
-              ))}
-            </div>
+      <div className="products-main">
+        {/* Mobile Filter Toggle */}
+        <button
+          className="mobile-filter-toggle"
+          onClick={() => setShowMobileFilters(!showMobileFilters)}
+        >
+          <FaSlidersH />
+          <span>Filters</span>
+          {activeFiltersCount > 0 && (
+            <span className="filter-count">{activeFiltersCount}</span>
           )}
+        </button>
+
+        <div className="products-container">
+          {/* Filters Sidebar */}
+          <aside className={`filters-sidebar ${showMobileFilters ? 'show' : ''}`}>
+            <div className="filters-header">
+              <h3>
+                <FaFilter />
+                <span>Filters</span>
+              </h3>
+              {activeFiltersCount > 0 && (
+                <button className="clear-filters-btn" onClick={clearFilters}>
+                  Clear All
+                </button>
+              )}
+              <button
+                className="close-filters-btn"
+                onClick={() => setShowMobileFilters(false)}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            {/* Categories */}
+            <div className="filter-section">
+              <h4>Categories</h4>
+              <div className="category-filters">
+                {categories.map(category => (
+                  <button
+                    key={category.name}
+                    className={`category-btn ${selectedCategory === category.name ? 'active' : ''}`}
+                    onClick={() => setSelectedCategory(category.name)}
+                  >
+                    <span className="category-icon">{category.icon}</span>
+                    <span className="category-name">{category.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Price Range */}
+            <div className="filter-section">
+              <h4>Price Range</h4>
+              <div className="price-slider-container">
+                <div className="price-inputs">
+                  <div className="price-input-group">
+                    <span className="price-label">Min</span>
+                    <div className="price-input-wrapper">
+                      <span className="currency">$</span>
+                      <input
+                        type="number"
+                        value={priceRange.min}
+                        onChange={(e) => setPriceRange({ ...priceRange, min: Number(e.target.value) })}
+                      />
+                    </div>
+                  </div>
+                  <div className="price-separator">
+                    <span></span>
+                  </div>
+                  <div className="price-input-group">
+                    <span className="price-label">Max</span>
+                    <div className="price-input-wrapper">
+                      <span className="currency">$</span>
+                      <input
+                        type="number"
+                        value={priceRange.max}
+                        onChange={(e) => setPriceRange({ ...priceRange, max: Number(e.target.value) })}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sort By */}
+            <div className="filter-section">
+              <h4>Sort By</h4>
+              <div className="sort-options">
+                {[
+                  { value: 'newest', label: 'Newest First' },
+                  { value: 'price-low', label: 'Price: Low to High' },
+                  { value: 'price-high', label: 'Price: High to Low' },
+                  { value: 'rating', label: 'Top Rated' }
+                ].map(option => (
+                  <button
+                    key={option.value}
+                    className={`sort-btn ${sortBy === option.value ? 'active' : ''}`}
+                    onClick={() => setSortBy(option.value)}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </aside>
+
+          {/* Products Grid */}
+          <div className="products-content">
+            {/* Results Bar */}
+            <div className="results-bar">
+              <div className="results-info">
+                <span className="results-count">{filteredProducts.length}</span>
+                <span className="results-text">products found</span>
+                {selectedCategory !== 'All' && (
+                  <span className="results-category">in {selectedCategory}</span>
+                )}
+              </div>
+              <div className="view-options">
+                <button
+                  className={`view-btn ${viewMode === 'grid' ? 'active' : ''}`}
+                  onClick={() => setViewMode('grid')}
+                  aria-label="Grid view"
+                >
+                  <FaTh />
+                </button>
+                <button
+                  className={`view-btn ${viewMode === 'list' ? 'active' : ''}`}
+                  onClick={() => setViewMode('list')}
+                  aria-label="List view"
+                >
+                  <FaList />
+                </button>
+              </div>
+            </div>
+
+            {/* Active Filters Tags */}
+            {activeFiltersCount > 0 && (
+              <div className="active-filters">
+                {searchTerm && (
+                  <span className="filter-tag">
+                    Search: "{searchTerm}"
+                    <button onClick={() => setSearchTerm('')}><FaTimes /></button>
+                  </span>
+                )}
+                {selectedCategory !== 'All' && (
+                  <span className="filter-tag">
+                    {selectedCategory}
+                    <button onClick={() => setSelectedCategory('All')}><FaTimes /></button>
+                  </span>
+                )}
+                {(priceRange.min !== 0 || priceRange.max !== 1000) && (
+                  <span className="filter-tag">
+                    ${priceRange.min} - ${priceRange.max}
+                    <button onClick={() => setPriceRange({ min: 0, max: 1000 })}><FaTimes /></button>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {/* Products */}
+            {loading ? (
+              <Loading />
+            ) : filteredProducts.length === 0 ? (
+              <div className="no-products">
+                <div className="no-products-icon">🔍</div>
+                <h3>No products found</h3>
+                <p>Try adjusting your filters or search term</p>
+                <button className="reset-filters-btn" onClick={clearFilters}>
+                  Reset Filters
+                </button>
+              </div>
+            ) : (
+              <div className={`products-grid ${viewMode === 'list' ? 'list-view' : ''}`}>
+                {filteredProducts.map((product, index) => (
+                  <ProductCard key={product._id} product={product} index={index} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Mobile Filter Overlay */}
+      {showMobileFilters && (
+        <div className="filter-overlay" onClick={() => setShowMobileFilters(false)}></div>
+      )}
     </div>
   );
 };

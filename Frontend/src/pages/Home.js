@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaTruck, FaShieldAlt, FaHeadset, FaUndo } from 'react-icons/fa';
+import { FaArrowRight, FaTruck, FaShieldAlt, FaHeadset, FaUndo, FaStar, FaPlay } from 'react-icons/fa';
 import ProductCard from '../components/ProductCard';
 import Loading from '../components/Loading';
 import { productService } from '../services/api';
@@ -20,7 +20,6 @@ const Home = () => {
       setFeaturedProducts(response.data.products || response.data);
     } catch (error) {
       console.error('Error fetching products:', error);
-      // Use dummy data for demo
       setFeaturedProducts(getDummyProducts());
     } finally {
       setLoading(false);
@@ -124,103 +123,225 @@ const Home = () => {
   ];
 
   const categories = [
-    { name: 'Electronics', icon: '📱', color: '#667eea' },
-    { name: 'Fashion', icon: '👗', color: '#f093fb' },
-    { name: 'Home', icon: '🏠', color: '#4facfe' },
-    { name: 'Sports', icon: '⚽', color: '#43e97b' }
+    { name: 'Electronics', icon: '🎧', gradient: 'linear-gradient(135deg, #6366f1, #8b5cf6)', count: '500+ Products' },
+    { name: 'Fashion', icon: '👗', gradient: 'linear-gradient(135deg, #ec4899, #f472b6)', count: '300+ Products' },
+    { name: 'Home', icon: '🏠', gradient: 'linear-gradient(135deg, #22d3ee, #2dd4bf)', count: '200+ Products' },
+    { name: 'Sports', icon: '⚽', gradient: 'linear-gradient(135deg, #10b981, #34d399)', count: '150+ Products' }
+  ];
+
+  const features = [
+    { icon: <FaTruck />, title: 'Free Shipping', desc: 'On orders over $50', color: '#6366f1' },
+    { icon: <FaShieldAlt />, title: 'Secure Payment', desc: '100% secure checkout', color: '#10b981' },
+    { icon: <FaHeadset />, title: '24/7 Support', desc: 'Dedicated support team', color: '#f59e0b' },
+    { icon: <FaUndo />, title: 'Easy Returns', desc: '30-day return policy', color: '#ec4899' }
+  ];
+
+  const stats = [
+    { number: '50K+', label: 'Happy Customers' },
+    { number: '10K+', label: 'Products' },
+    { number: '99%', label: 'Satisfaction' },
+    { number: '24/7', label: 'Support' }
   ];
 
   return (
     <div className="home">
       {/* Hero Section */}
       <section className="hero">
-        <div className="hero-content">
-          <h1>Welcome to <span>ShopEase</span></h1>
-          <p>Discover amazing products at unbeatable prices. Shop the latest trends and enjoy fast, free shipping on orders over $50.</p>
-          <div className="hero-buttons">
-            <Link to="/products" className="btn-primary">
-              Shop Now <FaArrowRight />
-            </Link>
-            <Link to="/products" className="btn-secondary">
-              View Deals
-            </Link>
+        {/* Animated Background Elements */}
+        <div className="hero-bg-elements">
+          <div className="hero-blob hero-blob-1"></div>
+          <div className="hero-blob hero-blob-2"></div>
+          <div className="hero-blob hero-blob-3"></div>
+          <div className="hero-particles">
+            {[...Array(6)].map((_, i) => (
+              <span key={i} className={`particle particle-${i + 1}`}></span>
+            ))}
           </div>
         </div>
-        <div className="hero-image">
-          <img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600" alt="Shopping" />
+
+        <div className="hero-container">
+          <div className="hero-content">
+            <div className="hero-badge">
+              <FaStar className="badge-icon" />
+              <span>Trusted by 50,000+ Customers</span>
+            </div>
+
+            <h1 className="hero-title">
+              <span className="title-line">Discover Your</span>
+              <span className="title-line title-gradient">Perfect Style</span>
+            </h1>
+
+            <p className="hero-subtitle">
+              Explore our curated collection of premium products. From cutting-edge electronics to trendy fashion, find everything you need at unbeatable prices.
+            </p>
+
+            <div className="hero-buttons">
+              <Link to="/products" className="btn-hero-primary">
+                <span>Shop Now</span>
+                <FaArrowRight className="btn-icon" />
+              </Link>
+              <button className="btn-hero-secondary">
+                <FaPlay className="play-icon" />
+                <span>Watch Video</span>
+              </button>
+            </div>
+
+            {/* Stats */}
+            <div className="hero-stats">
+              {stats.map((stat, index) => (
+                <div key={index} className="stat-item">
+                  <span className="stat-number">{stat.number}</span>
+                  <span className="stat-label">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="hero-visual">
+            <div className="hero-image-container">
+              <div className="hero-image-glow"></div>
+              <div className="hero-image-frame">
+                <img
+                  src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=600"
+                  alt="Shopping"
+                  className="hero-image"
+                />
+              </div>
+
+              {/* Floating Cards */}
+              <div className="floating-card floating-card-1">
+                <div className="floating-card-icon">🎁</div>
+                <div className="floating-card-text">
+                  <span className="card-title">Special Offer</span>
+                  <span className="card-value">Up to 50% OFF</span>
+                </div>
+              </div>
+
+              <div className="floating-card floating-card-2">
+                <div className="floating-card-icon">⭐</div>
+                <div className="floating-card-text">
+                  <span className="card-title">Top Rated</span>
+                  <span className="card-value">4.9/5 Stars</span>
+                </div>
+              </div>
+
+              <div className="floating-card floating-card-3">
+                <div className="floating-card-icon">🚀</div>
+                <div className="floating-card-text">
+                  <span className="card-title">Fast Delivery</span>
+                  <span className="card-value">2-3 Days</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Features Section */}
       <section className="features">
-        <div className="feature">
-          <FaTruck className="feature-icon" />
-          <h3>Free Shipping</h3>
-          <p>On orders over $50</p>
-        </div>
-        <div className="feature">
-          <FaShieldAlt className="feature-icon" />
-          <h3>Secure Payment</h3>
-          <p>100% secure checkout</p>
-        </div>
-        <div className="feature">
-          <FaHeadset className="feature-icon" />
-          <h3>24/7 Support</h3>
-          <p>Dedicated support team</p>
-        </div>
-        <div className="feature">
-          <FaUndo className="feature-icon" />
-          <h3>Easy Returns</h3>
-          <p>30-day return policy</p>
+        <div className="features-container">
+          {features.map((feature, index) => (
+            <div key={index} className="feature-card" style={{ '--accent-color': feature.color }}>
+              <div className="feature-icon-wrapper">
+                <div className="feature-icon">{feature.icon}</div>
+              </div>
+              <h3 className="feature-title">{feature.title}</h3>
+              <p className="feature-desc">{feature.desc}</p>
+            </div>
+          ))}
         </div>
       </section>
 
       {/* Categories Section */}
       <section className="categories-section">
-        <h2>Shop by Category</h2>
-        <div className="categories-grid">
-          {categories.map((category, index) => (
-            <Link
-              to={`/products?category=${category.name}`}
-              key={index}
-              className="category-card"
-              style={{ borderColor: category.color }}
-            >
-              <span className="category-icon">{category.icon}</span>
-              <span className="category-name">{category.name}</span>
+        <div className="section-container">
+          <div className="section-header">
+            <div className="section-header-text">
+              <span className="section-label">Browse Categories</span>
+              <h2 className="section-title">Shop by Category</h2>
+            </div>
+            <Link to="/products" className="section-link">
+              View All Categories
+              <FaArrowRight />
             </Link>
-          ))}
+          </div>
+
+          <div className="categories-grid">
+            {categories.map((category, index) => (
+              <Link
+                to={`/products?category=${category.name}`}
+                key={index}
+                className="category-card"
+                style={{ '--card-gradient': category.gradient }}
+              >
+                <div className="category-bg"></div>
+                <div className="category-content">
+                  <span className="category-icon">{category.icon}</span>
+                  <h3 className="category-name">{category.name}</h3>
+                  <span className="category-count">{category.count}</span>
+                </div>
+                <div className="category-arrow">
+                  <FaArrowRight />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* Featured Products Section */}
       <section className="featured-products">
-        <div className="section-header">
-          <h2>Featured Products</h2>
-          <Link to="/products" className="view-all">
-            View All <FaArrowRight />
-          </Link>
-        </div>
-
-        {loading ? (
-          <Loading />
-        ) : (
-          <div className="products-grid">
-            {featuredProducts.map(product => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+        <div className="section-container">
+          <div className="section-header">
+            <div className="section-header-text">
+              <span className="section-label">Handpicked For You</span>
+              <h2 className="section-title">Featured Products</h2>
+            </div>
+            <Link to="/products" className="section-link">
+              View All Products
+              <FaArrowRight />
+            </Link>
           </div>
-        )}
+
+          {loading ? (
+            <Loading />
+          ) : (
+            <div className="products-grid">
+              {featuredProducts.map((product, index) => (
+                <ProductCard key={product._id} product={product} index={index} />
+              ))}
+            </div>
+          )}
+        </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="newsletter">
-        <h2>Subscribe to Our Newsletter</h2>
-        <p>Get the latest updates on new products and upcoming sales</p>
-        <form className="newsletter-form" onSubmit={(e) => e.preventDefault()}>
-          <input type="email" placeholder="Enter your email" required />
-          <button type="submit">Subscribe</button>
-        </form>
+      {/* CTA Banner */}
+      <section className="cta-banner">
+        <div className="cta-bg-elements">
+          <div className="cta-blob cta-blob-1"></div>
+          <div className="cta-blob cta-blob-2"></div>
+        </div>
+        <div className="cta-container">
+          <div className="cta-content">
+            <span className="cta-badge">Limited Time Offer</span>
+            <h2 className="cta-title">Get 20% Off Your First Order</h2>
+            <p className="cta-text">Sign up for our newsletter and receive exclusive deals, early access to new products, and more!</p>
+            <form className="cta-form" onSubmit={(e) => e.preventDefault()}>
+              <div className="cta-input-wrapper">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  required
+                  className="cta-input"
+                />
+                <button type="submit" className="cta-submit">
+                  Subscribe
+                  <FaArrowRight />
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>
     </div>
   );

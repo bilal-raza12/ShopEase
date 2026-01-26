@@ -21,8 +21,8 @@ class Settings(BaseSettings):
 
     # Server
     host: str = "0.0.0.0"
-    port: int = 8001
-    debug: bool = True
+    port: int = 7860  # HF Spaces default port
+    debug: bool = False
 
     # Qdrant Collection Names
     products_collection: str = "shopease_products"

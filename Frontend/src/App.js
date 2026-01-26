@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -30,6 +30,8 @@ import AdminOrders from './pages/admin/AdminOrders';
 
 function App() {
   const { user } = useAuth();
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   return (
     <div className="app">
@@ -63,8 +65,8 @@ function App() {
       </Routes>
       <ToastContainer position="bottom-right" autoClose={3000} />
 
-      {/* AI Chatbot - Only show for logged in users */}
-      {user && (
+      {/* AI Chatbot - Only show for logged in users, not on admin pages */}
+      {user && !isAdminRoute && (
         <ChatWidget
           userId={user._id || user.id}
           userName={user.name}

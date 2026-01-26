@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { AuthProvider } from './context/AuthContext';
+import { AdminAuthProvider } from './context/AdminAuthContext';
 import { CartProvider } from './context/CartContext';
 import './index.css';
 
@@ -11,9 +12,11 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <CartProvider>
-          <App />
-        </CartProvider>
+        <AdminAuthProvider>
+          <CartProvider>
+            <App />
+          </CartProvider>
+        </AdminAuthProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>

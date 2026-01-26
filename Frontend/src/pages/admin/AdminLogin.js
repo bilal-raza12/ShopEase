@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiEye, FiEyeOff, FiShield } from 'react-icons/fi';
 import { authService } from '../../services/api';
-import { useAuth } from '../../context/AuthContext';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 import { toast } from 'react-toastify';
 import './AdminLogin.css';
 
 const AdminLogin = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { adminLogin } = useAdminAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,7 +34,7 @@ const AdminLogin = () => {
         return;
       }
 
-      login(response.data);
+      adminLogin(response.data);
       toast.success('Welcome to Admin Panel!');
       navigate('/admin/dashboard');
     } catch (error) {

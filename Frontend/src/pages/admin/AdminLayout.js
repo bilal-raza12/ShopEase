@@ -1,15 +1,15 @@
 import React from 'react';
 import { Link, useLocation, Navigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAdminAuth } from '../../context/AdminAuthContext';
 import { FiHome, FiUsers, FiPackage, FiShoppingCart, FiLogOut } from 'react-icons/fi';
 import './Admin.css';
 
 const AdminLayout = ({ children }) => {
-  const { user, logout, isAdmin } = useAuth();
+  const { admin, adminLogout, isAdminAuthenticated } = useAdminAuth();
   const location = useLocation();
 
   // Redirect to admin login if not admin
-  if (!user || !isAdmin) {
+  if (!isAdminAuthenticated) {
     return <Navigate to="/admin" replace />;
   }
 
@@ -21,7 +21,7 @@ const AdminLayout = ({ children }) => {
   ];
 
   const handleLogout = () => {
-    logout();
+    adminLogout();
     window.location.href = '/admin';
   };
 
@@ -45,8 +45,8 @@ const AdminLayout = ({ children }) => {
         </nav>
         <div className="admin-sidebar-footer">
           <div className="admin-user-info">
-            <span>{user.name}</span>
-            <small>{user.email}</small>
+            <span>{admin.name}</span>
+            <small>{admin.email}</small>
           </div>
           <button className="admin-logout-btn" onClick={handleLogout}>
             <FiLogOut />

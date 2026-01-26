@@ -6,6 +6,10 @@ import 'react-toastify/dist/ReactToastify.css';
 // Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import ChatWidget from './components/ChatWidget';
+
+// Context
+import { useAuth } from './context/AuthContext';
 
 // Pages
 import Home from './pages/Home';
@@ -25,6 +29,8 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
 
 function App() {
+  const { user } = useAuth();
+
   return (
     <div className="app">
       <Routes>
@@ -56,6 +62,14 @@ function App() {
         } />
       </Routes>
       <ToastContainer position="bottom-right" autoClose={3000} />
+
+      {/* AI Chatbot - Only show for logged in users */}
+      {user && (
+        <ChatWidget
+          userId={user._id || user.id}
+          userName={user.name}
+        />
+      )}
     </div>
   );
 }

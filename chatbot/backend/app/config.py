@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from functools import lru_cache
 
 
@@ -13,8 +14,8 @@ class Settings(BaseSettings):
     qdrant_url: str
     qdrant_api_key: str
 
-    # Database (SQLite by default, can use PostgreSQL)
-    database_url: str = "sqlite:///./chatbot.db"
+    # Database (SQLite in /tmp for HF Spaces, can use PostgreSQL)
+    database_url: str = "sqlite+aiosqlite:////tmp/chatbot.db"
 
     # MongoDB (existing ShopEase DB)
     mongodb_uri: str
@@ -29,6 +30,14 @@ class Settings(BaseSettings):
 
     # Cohere Model
     cohere_embed_model: str = "embed-english-v3.0"
+
+    # Strip whitespace from all API keys
+    @field_validator('openai_api_key', 'cohere_api_key', 'qdrant_api_key', 'qdrant_url', 'mongodb_uri', mode='before')
+    @classmethod
+    def strip_whitespace(cls, v):
+        if isinstance(v, str):
+            return v.strip()
+        return v
 
     class Config:
         env_file = ".env"

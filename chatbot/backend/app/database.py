@@ -9,12 +9,15 @@ settings = get_settings()
 # Database URL handling
 def get_async_database_url(url: str) -> str:
     """Convert database URL to async version."""
+    # Already async URL
+    if "+aiosqlite" in url or "+asyncpg" in url or "+psycopg" in url:
+        return url
     if url.startswith("sqlite:///"):
         # SQLite async
         return url.replace("sqlite:///", "sqlite+aiosqlite:///", 1)
     elif url.startswith("postgresql://"):
         # PostgreSQL async
-        return url.replace("postgresql://", "postgresql+psycopg://", 1)
+        return url.replace("postgresql://", "postgresql+asyncpg://", 1)
     return url
 
 
